@@ -1,0 +1,53 @@
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-deployment
+  labels: 
+    app: react-Deploy
+spec:
+  selector:
+    matchLabels:
+      app: memories-backend
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: memories-backend
+    spec:
+      containers:
+      - name: memories-backend
+        image: nawfel25/memories-backend
+        ports:
+        - containerPort: 80 
+      restartPolicy: Always 
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memories-frontend
+spec:
+  selector:
+    matchLabels:
+      app: memories-frontend
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: memories-frontend
+    spec:
+      containers:
+      - name: memories-frontend
+        image: nawfel25/memories-frontend
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports: 
+        - containerPort: 3000
+      restartPolicy: Always 
+--- 

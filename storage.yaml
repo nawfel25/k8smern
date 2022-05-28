@@ -1,0 +1,51 @@
+#what you want ??
+apiVersion: v1 
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc
+spec: 
+  storageClassName: "local-storage"
+  accessModes: 
+    - ReadWriteOnce 
+  resources: 
+    requests: 
+      storage: 1Gi
+
+
+--- 
+#how do you want it implemented ??
+
+apiVersion: v1
+kind: PersistentVolume
+metadata: 
+  name: local-storage 
+spec: 
+  storageClassName: "local-storage"
+  capacity: 
+    storage: 1Gi
+  accessModes: 
+    - ReadWriteOnce 
+  hostPath: 
+    path: "/mnt/data"
+    type: DirectoryOrCreate 
+
+---
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongodb
+  name: mongodb
+spec:
+  ports:
+  - port: 27017
+    protocol: TCP
+    targetPort: 27017
+    nodePort: 32000
+  selector:
+    app: mongodb
+  type: NodePort
+
+
+
