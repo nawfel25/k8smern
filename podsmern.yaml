@@ -3,24 +3,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: back-deployment
-  labels: 
-    app: react-Deploy
+  name: backend-app
 spec:
   selector:
     matchLabels:
-      app: memories-backend
-  replicas: 1
+      app: express-app
+
   template: # template for the pods
     metadata:
       labels:
-        app: memories-backend
+        app: express-app
     spec:
       containers:
-      - name: memories-backend
+      - name: express-container
         image: nawfel25/memories-backend
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
         ports:
-        - containerPort: 80 
+        - containerPort: 3000
       restartPolicy: Always 
 
 
@@ -30,6 +32,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: memories-frontend
+  labels: 
+    app: react-deployment
 spec:
   selector:
     matchLabels:
@@ -41,13 +45,13 @@ spec:
         app: memories-frontend
     spec:
       containers:
-      - name: memories-frontend
+      - name: memories-container 
         image: nawfel25/memories-frontend
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports: 
-        - containerPort: 3000
+        - containerPort: 80
       restartPolicy: Always 
 --- 

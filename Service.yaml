@@ -6,7 +6,7 @@ metadata:
     run: backend-service 
 spec:
   selector:
-    app: memories-backend
+    app: express-app
   ports:
     - name: http
       port: 3000
@@ -26,7 +26,7 @@ spec:
   ports:
     - name: http
       port: 8081
-      targetPort: 81
+      targetPort: 80
       protocol: TCP
 
   type: NodePort
